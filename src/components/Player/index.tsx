@@ -12,7 +12,6 @@ export function Player() {
     const audioRef = useRef<HTMLAudioElement>(null);
     const [progress, setProgress] = useState(0);
 
-
     const { 
         episodes, 
         currentEpisodeIndex, 
@@ -20,11 +19,13 @@ export function Player() {
         hasPrevious,
         hasNext,
         isLooping,
+        isShuffling,
         togglePlay,
         playPrevious, 
         playNext,
         setPlayingState,
-        toggleLoop
+        toggleLoop,
+        toggleShuffle
     } = usePlayer();
 
     useEffect(() => {
@@ -113,7 +114,12 @@ export function Player() {
                 )}
 
                 <div className={styles.buttons}>
-                    <button type="button" disabled={!episodeCurrent}>
+                    <button 
+                        type="button" 
+                        disabled={!episodeCurrent || episodes.length === 1}
+                        onClick={toggleShuffle}
+                        className={isShuffling ? styles.isActive : '' }
+                    >
                         <img src="/shuffle.svg" alt="Embaralhar"/>
                     </button>
 
