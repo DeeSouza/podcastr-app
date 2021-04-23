@@ -4,6 +4,8 @@ import ptBR from 'date-fns/locale/pt-BR';
 import { api } from '../../services/api';
 import { convertDurationToTimeString } from '../../utils/convertDurationToTimeString';
 
+import { usePlayer } from '../../contexts/PlayerContext';
+
 import styles from './episode.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -32,6 +34,8 @@ type EpisodeProps = {
 }
 
 export default function Episode({ episode }: EpisodeProps) {
+    const player = usePlayer();
+
     return (
         <div className={styles.episode}>
             <div className={styles.thumbnailContainer}>
@@ -43,7 +47,7 @@ export default function Episode({ episode }: EpisodeProps) {
 
                 <Image width={700} height={160} src={episode.thumbnail} objectFit="cover" />
 
-                <button type="button">
+                <button type="button" onClick={() => player.play(episode)}>
                     <img src="/play.svg" alt="Tocar Episódio"/>
                 </button>
             </div>
