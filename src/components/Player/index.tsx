@@ -25,7 +25,8 @@ export function Player() {
         playNext,
         setPlayingState,
         toggleLoop,
-        toggleShuffle
+        toggleShuffle,
+        clearPlayerState
     } = usePlayer();
 
     useEffect(() => {
@@ -48,6 +49,15 @@ export function Player() {
                 Math.floor(audioRef.current.currentTime)
             )
         });
+    }
+
+    function handleEpisodeEnded() {
+        if(hasNext) {
+            playNext();
+        }
+        else {
+            clearPlayerState();
+        }
     }
 
     function handleSeek(amount: number) {
@@ -110,6 +120,7 @@ export function Player() {
                         onPlay={() => setPlayingState(true)}
                         onPause={() => setPlayingState(false)}
                         onLoadedMetadata={setupProgressListener}
+                        onEnded={handleEpisodeEnded}
                     />
                 )}
 
